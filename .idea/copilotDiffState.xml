@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="/ConsumerGateway (snapshot).java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="/ConsumerGateway (snapshot).java" />
+              <option name="originalContent" value="package hub.orcana.orcana_email_service.gateway;&#10;&#10;import com.fasterxml.jackson.databind.ObjectMapper;&#10;import hub.orcana.orcana_email_service.dto.EmailRequest;&#10;import hub.orcana.orcana_email_service.gateway.impl.EmailGatewayImpl;&#10;import lombok.RequiredArgsConstructor;&#10;import lombok.extern.slf4j.Slf4j;&#10;import org.springframework.amqp.rabbit.annotation.RabbitListener;&#10;import org.springframework.stereotype.Service;&#10;&#10;@Service&#10;@RequiredArgsConstructor&#10;@Slf4j&#10;public class ConsumerGateway {&#10;&#10;    private final EmailGatewayImpl emailGateway;&#10;    private final ObjectMapper objectMapper;&#10;&#10;    @RabbitListener(queues = &quot;${broker.queue.name}&quot;)&#10;    public void receberEmailDaFila(String mensagem) {&#10;        try {&#10;            // Desserializar JSON para EmailRequest&#10;            EmailRequest emailRequest = objectMapper.readValue(mensagem, EmailRequest.class);&#10;&#10;            log.info(&quot;Recebendo email da fila para: {}&quot;, emailRequest.destinatario());&#10;&#10;            // Enviar email através do gateway SMTP&#10;            emailGateway.enviarEmailSimples(&#10;                    emailRequest.destinatario(),&#10;                    emailRequest.assunto(),&#10;                    emailRequest.mensagem()&#10;            );&#10;&#10;            log.info(&quot;Email enviado com sucesso para: {}&quot;, emailRequest.destinatario());&#10;        } catch (Exception e) {&#10;            log.error(&quot;Erro ao processar email da fila: {}&quot;, e.getMessage(), e);&#10;            throw new RuntimeException(&quot;Erro ao processar email da fila&quot;, e);&#10;        }&#10;    }&#10;}&#10;" />
+              <option name="updatedContent" value="package hub.orcana.orcana_email_service.gateway;&#10;&#10;import hub.orcana.orcana_email_service.dto.EmailRequest;&#10;import hub.orcana.orcana_email_service.gateway.impl.EmailGatewayImpl;&#10;import lombok.RequiredArgsConstructor;&#10;import lombok.extern.slf4j.Slf4j;&#10;import org.springframework.amqp.rabbit.annotation.RabbitListener;&#10;import org.springframework.stereotype.Service;&#10;&#10;@Service&#10;@RequiredArgsConstructor&#10;@Slf4j&#10;public class ConsumerGateway {&#10;&#10;    private final EmailGatewayImpl emailGateway;&#10;&#10;    @RabbitListener(queues = &quot;${broker.queue.name}&quot;)&#10;    public void receberEmailDaFila(EmailRequest emailRequest) {&#10;        try {&#10;            log.info(&quot;Recebendo email da fila para: {}&quot;, emailRequest.destinatario());&#10;&#10;            // Enviar email através do gateway SMTP&#10;            emailGateway.enviarEmailSimples(&#10;                    emailRequest.destinatario(),&#10;                    emailRequest.assunto(),&#10;                    emailRequest.mensagem()&#10;            );&#10;&#10;            log.info(&quot;Email enviado com sucesso para: {}&quot;, emailRequest.destinatario());&#10;        } catch (Exception e) {&#10;            log.error(&quot;Erro ao processar email para: {}&quot;, emailRequest.destinatario(), e);&#10;            throw new RuntimeException(&quot;Erro ao processar email da fila&quot;, e);&#10;        }&#10;    }&#10;}&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
