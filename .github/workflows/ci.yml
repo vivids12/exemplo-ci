@@ -61,6 +61,6 @@ jobs:
       - name: Build e push da imagem Docker
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
+          context: ./src
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/exemplo-actions:latest
