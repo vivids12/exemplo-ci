@@ -56,7 +56,6 @@ jobs:
 
       - name: Build e testes
         run: mvn clean package
-        working-directory: backend
 
       - name: Build e push da imagem Docker
         uses: docker/build-push-action@v5
