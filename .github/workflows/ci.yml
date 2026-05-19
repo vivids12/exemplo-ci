@@ -44,6 +44,9 @@ jobs:
       - build
       - test
     steps:
+      - name: Listar arquivos
+        run: ls -la
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -60,6 +63,6 @@ jobs:
       - name: Build e push da imagem Docker
         uses: docker/build-push-action@v5
         with:
-          context: ./src
+          context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/exemplo-actions:latest
